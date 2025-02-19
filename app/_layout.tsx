@@ -9,7 +9,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
-
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { ClerkProvider, ClerkLoaded, useClerk } from "@clerk/clerk-expo";
 import { tokenCache } from "@/cache";
@@ -40,15 +40,17 @@ export default function RootLayout() {
   }
 
   return (
-    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-      <ClerkLoaded>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <Slot />
-          <StatusBar style="auto" />
-        </ThemeProvider>
-      </ClerkLoaded>
-    </ClerkProvider>
+    <GestureHandlerRootView>
+      <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+        <ClerkLoaded>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <Slot />
+            <StatusBar style="auto" />
+          </ThemeProvider>
+        </ClerkLoaded>
+      </ClerkProvider>
+    </GestureHandlerRootView>
   );
 }

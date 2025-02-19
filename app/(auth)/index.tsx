@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import * as Haptics from "expo-haptics";
-import { Href, useRouter } from "expo-router";
+import { Href, router } from "expo-router";
 import { View } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { BodyScrollView } from "@/components/ui/body-scroll-view";
@@ -11,7 +11,6 @@ import { ClerkAPIError } from "@clerk/types";
 
 export default function SignIn() {
   const { signIn, setActive, isLoaded } = useSignIn();
-  const router = useRouter();
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");

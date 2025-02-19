@@ -3,10 +3,13 @@ import * as Haptics from "expo-haptics";
 import { BodyScrollView } from "@/components/ui/body-scroll-view";
 import Button from "@/components/ui/button";
 import { IconSymbol } from "@/components/ui/IconSymbol";
-import { useClerk } from "@clerk/clerk-expo";
 import { router, Stack } from "expo-router";
-import { Pressable } from "react-native";
+import { FlatList, Pressable } from "react-native";
 import { Platform, StyleSheet } from "react-native";
+import { IconCircle } from "@/components/ui/IconCircle";
+import { backgroundColors } from "@/constants/Colors";
+import { useShoppingListIds } from "@/stores/ShoppingListsStore";
+import ShoppingListItem from "@/components/ShoppingListItem";
 
 const ICON_COLOR = "#007AFF";
 
@@ -20,8 +23,22 @@ const handleProfilePress = () => {
   router.push("/profile");
 };
 
+const renderEmptyList = () => (
+  <BodyScrollView contentContainerStyle={styles.emptyStateContainer}>
+    <IconCircle
+      emoji="🛒"
+      backgroundColor={
+        backgroundColors[Math.floor(Math.random() * backgroundColors.length)]
+      }
+    />
+    <Button onPress={handleNewListPress} variant="ghost">
+      Create your first list
+    </Button>
+  </BodyScrollView>
+);
+
 export default function HomeScreen() {
-  const { signOut } = useClerk();
+  const shoppingListIds = useShoppingListIds();
 
   const renderHeaderRight = () => (
     <Pressable onPress={handleNewListPress} style={styles.headerButton}>
@@ -51,15 +68,15 @@ export default function HomeScreen() {
         }}
       />
       <BodyScrollView>
-        <Button
-          onPress={() => {
-            console.log("Signing out");
-            signOut();
-            router.replace("/(auth)");
-          }}
-        >
-          Sign Out
-        </Button>
+        <FlatList
+          data={shoppingListIds}
+          renderItem={({ item: listId }) => (
+            <ShoppingListItem listId={listId} />
+          )}
+          contentContainerStyle={styles.listContainer}
+          contentInsetAdjustmentBehavior="automatic"
+          ListEmptyComponent={renderEmptyList}
+        />
       </BodyScrollView>
     </>
   );

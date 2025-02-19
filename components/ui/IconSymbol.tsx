@@ -15,6 +15,9 @@ const MAPPING = {
   "chevron.right": "chevron-right",
   plus: "add",
   gear: "settings",
+  "trash.fill": "delete",
+  "square.and.arrow.up": "share",
+  "pencil.and.list.clipboard": "edit",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],

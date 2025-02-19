@@ -1,12 +1,11 @@
 import React from "react";
 import * as Haptics from "expo-haptics";
-import { useRouter } from "expo-router";
+import { router } from "expo-router";
 import { FlatList, Pressable, View } from "react-native";
 import { backgroundColors } from "@/constants/Colors";
 import { useListCreation } from "@/context/ListCreationContext";
 
 export default function ColorPickerScreen() {
-  const router = useRouter();
   const { setSelectedColor } = useListCreation();
 
   const handleColorSelect = (color: string) => {

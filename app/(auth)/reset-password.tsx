@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRouter } from "expo-router";
+import { router } from "expo-router";
 import { ThemedText } from "@/components/ThemedText";
 import { BodyScrollView } from "@/components/ui/body-scroll-view";
 import Button from "@/components/ui/button";
@@ -10,7 +10,6 @@ import { useCallback, useState } from "react";
 
 export default function ResetPassword() {
   const { isLoaded, signIn, setActive } = useSignIn();
-  const router = useRouter();
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");

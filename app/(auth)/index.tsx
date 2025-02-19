@@ -6,7 +6,11 @@ import { ThemedText } from "@/components/ThemedText";
 import { BodyScrollView } from "@/components/ui/body-scroll-view";
 import Button from "@/components/ui/button";
 import TextInput from "@/components/ui/text-input";
-import { isClerkAPIResponseError, useSignIn } from "@clerk/clerk-expo";
+import {
+  isClerkAPIResponseError,
+  isClerkRuntimeError,
+  useSignIn,
+} from "@clerk/clerk-expo";
 import { ClerkAPIError } from "@clerk/types";
 
 export default function SignIn() {
@@ -40,11 +44,16 @@ export default function SignIn() {
       } else {
         // If the status isn't complete, check why. User might need to
         // complete further steps.
+
         console.error(JSON.stringify(signInAttempt, null, 2));
       }
     } catch (err) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
+      console.log(JSON.stringify(err, null, 2));
+      if (isClerkRuntimeError(err) && err.code === "network_error") {
+        console.error("Network error occurred!");
+      }
       if (isClerkAPIResponseError(err)) setErrors(err.errors);
       console.error(JSON.stringify(err, null, 2));
     } finally {

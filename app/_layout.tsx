@@ -11,8 +11,9 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { ClerkProvider, ClerkLoaded, useClerk } from "@clerk/clerk-expo";
+import { ClerkProvider, ClerkLoaded } from "@clerk/clerk-expo";
 import { tokenCache } from "@/cache";
+import { secureStore } from "@clerk/clerk-expo/secure-store";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 
@@ -41,7 +42,11 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView>
-      <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+      <ClerkProvider
+        publishableKey={publishableKey}
+        tokenCache={tokenCache}
+        __experimental_resourceCache={secureStore}
+      >
         <ClerkLoaded>
           <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
